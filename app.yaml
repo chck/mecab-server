@@ -1,0 +1,3 @@
+service: mecab-server
+runtime: custom
+env: flex
