@@ -3,16 +3,16 @@ import os
 from functools import lru_cache
 
 from bottle import request, default_app, get, post
-from natto import MeCab
+import MeCab
 
 
 @lru_cache(maxsize=None)
 def tagger():
     dicdir = os.environ.get('MECAB_DICDIR')
     if dicdir:
-        return MeCab('-d {}'.format(dicdir))
+        return MeCab.Tagger('-d {}'.format(dicdir))
     else:
-        return MeCab()
+        return MeCab.Tagger()
 
 
 @get('/parse')
