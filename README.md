@@ -1,21 +1,34 @@
 # mecab-server
-> a **stand-alone** mecab server for NLPers
+> A **stand-alone** mecab server for NLPers
 
 ## Requirements
 ```bash
-Docker 17.xx
+Docker 18.xx
+Python 3.6.X
+
+# if you need
+flake8>=3.5.0
+autopep8>=1.3.5
+```
+
+## Set global variable
+```bash
+export PIPENV_VENV_IN_PROJECT=true
 ```
 
 ## Usage
 ```bash
+# Help
+make
+
 # Build image based on dockerfile
-docker build . -t mecab-server
+make build
 
 # Run on local to debug
-docker run --rm -p 8080:80 -e PORT=80 mecab-server
-curl "http://localhost:8080/parse?q=アルミ缶の上にあるみかん"
+make dev
+curl -XGET http://localhost:8080/parse?q=アルミ缶の上にあるみかん
+curl -XPOST -d q=アルミ缶の上にあるみかん http://localhost:8080/parse
 
 # Deploy on GAE
-gcloud app deploy --quiet
-gcloud app browse -s mecab-server
+make deploy
 ```
