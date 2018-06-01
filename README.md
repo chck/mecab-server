@@ -11,11 +11,6 @@ flake8>=3.5.0
 autopep8>=1.3.5
 ```
 
-## Set global variable
-```bash
-export PIPENV_VENV_IN_PROJECT=true
-```
-
 ## Usage
 ```bash
 # Help
