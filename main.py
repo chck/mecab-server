@@ -2,23 +2,24 @@
 import os
 from functools import lru_cache
 
-from bottle import route, request, default_app
-from natto import MeCab
+from bottle import request, default_app, get, post
+import MeCab
 
 
 @lru_cache(maxsize=None)
 def tagger():
     dicdir = os.environ.get('MECAB_DICDIR')
     if dicdir:
-        return MeCab('-d {}'.format(dicdir))
+        return MeCab.Tagger('-d {}'.format(dicdir))
     else:
-        return MeCab()
+        return MeCab.Tagger()
 
 
-@route('/parse')
-def index():
+@get('/parse')
+@post('/parse')
+def parse():
     result = []
-    for line in tagger().parse(request.query.q).split('\n'):
+    for line in tagger().parse(request.query.q or request.forms.q).split('\n'):
         line = line.strip()
         parts = line.split('\t', 1)
         if line == 'EOS' or len(parts) <= 1:
