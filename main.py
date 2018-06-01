@@ -2,7 +2,7 @@
 import os
 from functools import lru_cache
 
-from bottle import route, request, default_app
+from bottle import request, default_app, get, post
 from natto import MeCab
 
 
@@ -15,10 +15,11 @@ def tagger():
         return MeCab()
 
 
-@route('/parse')
-def index():
+@get('/parse')
+@post('/parse')
+def parse():
     result = []
-    for line in tagger().parse(request.query.q).split('\n'):
+    for line in tagger().parse(request.query.q or request.forms.q).split('\n'):
         line = line.strip()
         parts = line.split('\t', 1)
         if line == 'EOS' or len(parts) <= 1:
